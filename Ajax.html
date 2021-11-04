@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <title>Displaying ajax data</title>
+        <center><h1>GETTING AND DISPLAYING THE SERVER DATA USING AJAX</h1></center>
+        <center><input type="submit" value="DATA" id="button" onclick="retrive()" style="background-color: rgb(94, 237, 241);" ></center>
+        <style>
+            #line table,th,td{
+                border: 1px solid black;
+                border-collapse: collapse;
+                font-style: bold;
+                text-align: center;
+            }
+            table th{
+                background: cornflowerblue;
+                padding: 10px;
+                text-align: center;
+            }
+            #button{
+                border: 1px solid black;
+                border-collapse: collapse;
+                font-style: bold;
+                width: 50px;
+                padding: 5px;
+            }
+        </style>
+    </head>
+    <body>        
+        <p id="line"></p>
+        <script>
+            function retrive(){
+                var xhtpp = new XMLHttpRequest();
+                xhtpp.onreadystatechange = function(){
+                    if(this.readyState==4 && this.status==200){
+                        document.getElementById('button').style.visibility="hidden";
+                        var objects = JSON.parse(this.responseText)
+                    }
+                    var s=""
+                    document.getElementById("line").innerHTML=s+=
+                    '<table><tr><th>USERID</th><th>ID</th><th>TITLE</th><th>BODY</th></tr>'
+                    for(i=0;i<objects.length;i++){
+                        document.getElementById("line").innerHTML=s+=
+                        '<tr><td>'+objects[i].userId+'</td><td>'+objects[i].id+'</td><td>'+objects[i].title+'</td><td>'+objects[i].body+'</td><td>'
+                    }
+                    document.getElementById("line").innerHTML=s+='</table'
+                }
+                xhtpp.open("GET","https://jsonplaceholder.typicode.com/posts",true);
+                xhtpp.send();
+            }
+        </script>
+    </body>
+</html>
